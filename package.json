@@ -1,0 +1,16 @@
+{
+  "name": "dev-scheduled-admin-payment-log",
+  "version": "1.0.0",
+  "description": "다이아/아이템 수동 예약지급(개발환경)",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1166.0",
+    "axios": "^0.27.2",
+    "moment-timezone": "^0.5.34"
+  }
+}

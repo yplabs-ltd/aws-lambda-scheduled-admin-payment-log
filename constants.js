@@ -1,0 +1,2 @@
+exports.QUEUE_URL = 'https://sqs.ap-northeast-2.amazonaws.com/487884962987/dev-scheduled-admin-payment-log'
+exports.API_URL = (log_pk)=>`https://qa-api.yplabs.net/management/log/payments/${log_pk}/scheduled-payment/`
