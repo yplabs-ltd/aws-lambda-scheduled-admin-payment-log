@@ -1,0 +1,6 @@
+version: 0.2
+
+phrase:
+  build:
+    commands:
+      - bash scripts/deploy-lambda.sh
