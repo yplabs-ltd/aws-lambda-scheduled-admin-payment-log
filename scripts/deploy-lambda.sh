@@ -8,7 +8,7 @@ set -x -e
 # S3_BUCKET_FOR_DEPLOY_LAMBDA=yplabs-lambda-test-bucket
 # DEPLOY_APPLICATION_NAME=scheduled-admin-payment-log
 # DEPLOY_DEPLOYMENT_GROUP_NAME=development
-
+export DEPLOY_APPSPEC_FILE="appspec.yml"
 echo "get lambda function alias"
 aws lambda get-alias \
   --function-name $DEPLOY_FUNCTION_NAME \
@@ -30,7 +30,7 @@ aws lambda update-function-code \
     > update-output.json
 
 LATEST_VERSION=$(cat update-output.json | jq -r '.Version')
-export DEPLOY_APPSPEC_FILE="$LATEST_VERSION.txt"
+
 if [[ $DEPLOY_ALIAS_NAME -ge $LATEST_VERSION ]]; then
   exit 0
 fi
@@ -49,14 +49,14 @@ Resources:
         TargetVersion: "$LATEST_VERSION"
 EOM
 
-aws s3 cp $DEPLOY_APPSPEC_FILE \
-    s3://$S3_BUCKET_FOR_DEPLOY_LAMBDA/$DEPLOY_APPSPEC_FILE
+# aws s3 cp $DEPLOY_APPSPEC_FILE \
+#     s3://$S3_BUCKET_FOR_DEPLOY_LAMBDA/$DEPLOY_APPSPEC_FILE
 
-REVISION=revisionType=S3,s3Location={bucket=$S3_BUCKET_FOR_DEPLOY_LAMBDA,key=$DEPLOY_APPSPEC_FILE,bundleType=yaml}
+# REVISION=revisionType=S3,s3Location={bucket=$S3_BUCKET_FOR_DEPLOY_LAMBDA,key=$DEPLOY_APPSPEC_FILE,bundleType=yaml}
 
-aws deploy create-deployment \
-   --application-name $DEPLOY_APPLICATION_NAME \
-   --deployment-group-name $DEPLOY_DEPLOYMENT_GROUP_NAME \
-   --deployment-config-name CodeDeployDefault.LambdaAllAtOnce \
-   --revision $REVISION
+# aws deploy create-deployment \
+#    --application-name $DEPLOY_APPLICATION_NAME \
+#    --deployment-group-name $DEPLOY_DEPLOYMENT_GROUP_NAME \
+#    --deployment-config-name CodeDeployDefault.LambdaAllAtOnce \
+#    --revision $REVISION
   
