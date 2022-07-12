@@ -2,11 +2,12 @@
 
 set -x -e 
 
-DEPOY_FUNCTION_NAME=dev-scheduled-admin-payment-log
-DEPLOY_ALIAS_NAME=dev
-S3_BUCKET_FOR_DEPLOY_LAMBDA=yplabs-lambda-test-bucket
-DEPLOY_APPLICATION_NAME=scheduled-admin-payment-log
-DEPLOY_DEPLOYMENT_GROUP_NAME=development
+# use when execute in local 
+# DEPOY_FUNCTION_NAME=dev-scheduled-admin-payment-log
+# DEPLOY_ALIAS_NAME=dev
+# S3_BUCKET_FOR_DEPLOY_LAMBDA=yplabs-lambda-test-bucket
+# DEPLOY_APPLICATION_NAME=scheduled-admin-payment-log
+# DEPLOY_DEPLOYMENT_GROUP_NAME=development
 
 echo "get lambda function alias"
 aws lambda get-alias \
