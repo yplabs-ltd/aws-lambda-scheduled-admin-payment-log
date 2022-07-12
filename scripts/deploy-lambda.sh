@@ -2,6 +2,11 @@
 
 set -x -e 
 
+DEPOY_FUNCTION_NAME=dev-scheduled-admin-payment-log
+DEPLOY_ALIAS_NAME=dev
+S3_BUCKET_FOR_DEPLOY_LAMBDA=yplabs-lambda-test-bucket
+DEPLOY_APPLICATION_NAME=scheduled-admin-payment-log
+DEPLOY_DEPLOYMENT_GROUP_NAME=development
 
 echo "get lambda function alias"
 aws lambda get-alias \
@@ -46,14 +51,11 @@ EOM
 aws s3 cp $DEPLOY_APPSPEC_FILE \
     s3://$S3_BUCKET_FOR_DEPLOY_LAMBDA/$DEPLOY_APPSPEC_FILE
 
-REVISION=revisionType=S3.s3Location={
-    bucket=$S3_BUCKET_FOR_DEPLOY_LAMBDA,
-    key=$DEPLOY_APPSPEC_FILE,
-    bundleType=yaml}
+REVISION=revisionType=S3,s3Location= { bucket=$S3_BUCKET_FOR_DEPLOY_LAMBDA, key=$DEPLOY_APPSPEC_FILE, bundleType=yaml}
 
 aws deploy create-deployment \
    --application-name $DEPLOY_APPLICATION_NAME \
    --deployment-group-name $DEPLOY_DEPLOYMENT_GROUP_NAME \
-   --deploymnet-config-name CodeDeployDefault.LambdaAllatOnce \
+   --deployment-config-name CodeDeployDefault.LambdaAllatOnce \
    --revision $REVISION
   

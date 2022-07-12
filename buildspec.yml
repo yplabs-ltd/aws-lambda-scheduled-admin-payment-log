@@ -1,6 +1,6 @@
 version: 0.2
 
-phrase:
+phases:
   build:
     commands:
       - bash scripts/deploy-lambda.sh
