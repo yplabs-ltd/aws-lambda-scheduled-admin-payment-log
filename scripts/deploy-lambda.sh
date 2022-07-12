@@ -3,7 +3,7 @@
 set -x -e 
 
 # use when execute in local 
-# DEPOY_FUNCTION_NAME=dev-scheduled-admin-payment-log
+# DEPLOY_FUNCTION_NAME=dev-scheduled-admin-payment-log
 # DEPLOY_ALIAS_NAME=dev
 # S3_BUCKET_FOR_DEPLOY_LAMBDA=yplabs-lambda-test-bucket
 # DEPLOY_APPLICATION_NAME=scheduled-admin-payment-log
@@ -11,7 +11,7 @@ set -x -e
 
 echo "get lambda function alias"
 aws lambda get-alias \
-  --function-name $DEPOY_FUNCTION_NAME \
+  --function-name $DEPLOY_FUNCTION_NAME \
   --name $DEPLOY_ALIAS_NAME \
   > lambda-alias.json
 
@@ -24,7 +24,7 @@ zip -r lambda_application.zip .
 
 echo "deploy to lambda"
 aws lambda update-function-code \
-    --function-name $DEPOY_FUNCTION_NAME \
+    --function-name $DEPLOY_FUNCTION_NAME \
     --zip-file fileb://lambda_application.zip \
     --publish \
     > update-output.json
@@ -43,7 +43,7 @@ Resources:
    - ScheduledAdminPaymentLogJob:
       Type: AWS::Lambda::Function
       Properties:
-        Name: "$DEPOY_FUNCTION_NAME"
+        Name: "$DEPLOY_FUNCTION_NAME"
         Alias: "$DEPLOY_ALIAS_NAME"
         CurrentVersion: "$DEVELOPMENT_ALIAS_VERSION"
         TargetVersion: "$LATEST_VERSION"
