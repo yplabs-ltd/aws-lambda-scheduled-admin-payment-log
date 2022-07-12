@@ -3,9 +3,6 @@
 set -x -e 
 
 
-export S3_BUCKET_FOR_DEPLOY_LAMBDA=yplabs-lambda-test-bucket
-
-
 echo "get lambda function alias"
 aws lambda get-alias \
   --function-name $DEPOY_FUNCTION_NAME \
@@ -53,3 +50,10 @@ REVISION=revisionType=S3.s3Location={
     bucket=$S3_BUCKET_FOR_DEPLOY_LAMBDA,
     key=$DEPLOY_APPSPEC_FILE,
     bundleType=yaml}
+
+aws deploy create-deployment \
+   --application-name $DEPLOY_APPLICATION_NAME \
+   --deployment-group-name $DEPLOY_DEPLOYMENT_GROUP_NAME \
+   --deploymnet-config-name CodeDeployDefault.LambdaAllatOnce \
+   --revision $REVISION
+  
