@@ -12,5 +12,8 @@
     "aws-sdk": "^2.1166.0",
     "axios": "^0.27.2",
     "moment-timezone": "^0.5.34"
+  },
+  "devDependencies": {
+    "moment": "^2.29.4"
   }
 }

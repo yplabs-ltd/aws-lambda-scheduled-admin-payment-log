@@ -18,9 +18,8 @@ aws lambda get-alias \
 export DEVELOPMENT_ALIAS=$(cat lambda-alias.json | jq -r '.FunctionVersion')
 
 
-echo "zip code"
+echo "zip code" // 압축 파일로 만듦
 zip -r lambda_application.zip .
-
 
 echo "deploy to lambda"
 aws lambda update-function-code \
@@ -49,14 +48,14 @@ Resources:
         TargetVersion: "$LATEST_VERSION"
 EOM
 
-# aws s3 cp $DEPLOY_APPSPEC_FILE \
-#     s3://$S3_BUCKET_FOR_DEPLOY_LAMBDA/$DEPLOY_APPSPEC_FILE
+aws s3 cp $DEPLOY_APPSPEC_FILE \
+    s3://$S3_BUCKET_FOR_DEPLOY_LAMBDA/$DEPLOY_APPSPEC_FILE
 
-# REVISION=revisionType=S3,s3Location={bucket=$S3_BUCKET_FOR_DEPLOY_LAMBDA,key=$DEPLOY_APPSPEC_FILE,bundleType=yaml}
+REVISION=revisionType=S3,s3Location={bucket=$S3_BUCKET_FOR_DEPLOY_LAMBDA,key=$DEPLOY_APPSPEC_FILE,bundleType=yaml}
 
-# aws deploy create-deployment \
-#    --application-name $DEPLOY_APPLICATION_NAME \
-#    --deployment-group-name $DEPLOY_DEPLOYMENT_GROUP_NAME \
-#    --deployment-config-name CodeDeployDefault.LambdaAllAtOnce \
-#    --revision $REVISION
+aws deploy create-deployment \
+   --application-name $DEPLOY_APPLICATION_NAME \
+   --deployment-group-name $DEPLOY_DEPLOYMENT_GROUP_NAME \
+   --deployment-config-name CodeDeployDefault.LambdaAllAtOnce \
+   --revision $REVISION
   
